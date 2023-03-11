@@ -1,0 +1,133 @@
+Bu çalışmamız da Trello API sini kullanarak çeşitli işlemler yapmayı hedefleyeceğiz.
+
+
+Kullanılacak Doc. ====>>>>>
+
+https://developer.atlassian.com/cloud/trello/rest/api-group-actions/
+
+
+
+
+
+
+
+
+
+
+
+To Do List
+--- apiKey ve token alınmalı          DONE
+--- cards end pointi için iDList create edilmeli ve alınmalı          DONE
+--- idBoard vermem lazım         ---- create ettiğim boıarddan        DONE
+--- card ın id sini bulmam lazım  ----- create ettiğim card responsundan DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --- Trello üzerinden bir tane board oluşturunuz                       (POST)
+ --- Oluşturduğunuz board a iki tane card oluşturunuz                  (POST)
+ --- Oluşturuduğunuz bu iki kartta bir tanesini güncelleiyiniz.        (PUT)
+ --- Oluşturduğunuz kartı siliniz
+ --- Oluşturduğunuz board u siliniz
+
+
+
+
+
+
+
+
+
+Kullanılacak apikey ve token bilgileri aşağıda verilmiştir. İlgili apıkey ve token bilgilerine ulaşmak için
+
+---   URL = https://trello.com/login ve https://trello.com/app-key adresine giderek, apikey ve token creation işlemlerini yapabilirsiniz.
+---   İlgili API için takip edeceğimiz doc. -->> https://developer.atlassian.com/cloud/trello/rest/api-group-actions/ adresini kullanabilirsiniz.
+
+
+apikey = 7852a988d8215fe699b78a92c8aa400b
+faffafe73cc0909797647e4a11bee1fa
+token = ATTA6116293e2b6e1710a0769c4197ffbd2c7a7f23c95d476741e0255626dd2f37967CEC20DC
+b862cde8f3660ba8c7a1a1471e785dc82ab3022ef8aaa2c03f9d9f605f0aa9cc
+
+
+        Yapılacak İşlemler:
+
+            a) Bir tane board oluşturunuz.
+
+            URL = 'https://api.trello.com/1/boards?name={name}&key=APIKey&token=APIToken'   (POST)
+
+           *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden query params olarak
+               "name" --> String formatın da istenmiştir.
+                Diğer fieldlar optional olarak belirtilmiştir.
+
+
+            b) Oluşurulan board icin iki tane card create ediniz.
+
+            b.1) URL = "https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken"  (POST)
+
+
+            *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden query params olarak
+                           "idList" --> String formatın da istenmiştir.
+                            Diğer fieldlar optional olarak belirtilmiştir.
+
+            SORU --> idList e nasıl ulşmalıyız. Bunun cevabı doc.de saklıdır.
+            Doc. a baktığımız zaman görüyoruz ki idList i ayrıca creat etmemiz gerekmektedir.
+
+            b.2) URL = "https://api.trello.com/1/lists?name={name}&idBoard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken" (POST)
+
+             *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden query params olarak
+                  "idBoard" --> String formatın da istenmiştir.
+                   Diğer fieldlar optional olarak belirtilmiştir.
+
+              SORU --> idBoard a nasıl ulşmalıyız. Bunun cevabı doc.de saklıdır.
+              Doc. a baktığımız zaman görüyoruz ki idBoard i ayrıca creat etmemiz gerekmektedir. Ki bizler bunu "a" stebinde creat etmiştik.
+              Aynısı kullanabiliriz.
+
+
+             c) Oluşturulan cardlardan bir tanesini Random bir şekilde update ediniz. (PUT)
+
+             URL = 'https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
+
+           *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden path param olarak
+                              "id" --> String formatın da istenmiştir.
+                               Diğer fieldlar optional olarak belirtilmiştir.
+
+             SORU --> id e ye nasıl ulşmalıyız. Bunun cevabı doc.de saklıdır.
+             Doc. a baktığımız zaman görüyoruz ki id i ayrıca creat etmemiz gerekmektedir. Ki bizler bunu "b.1" stebinde creat etmiştik.
+             Aynısı kullanabiliriz.
+
+
+            d) Oluşturulan cardları siliniz
+
+            URL = "https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken"  (DELETE)
+
+            *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden path param olarak
+             "id" --> String formatın da istenmiştir.
+             Diğer fieldlar optional olarak belirtilmiştir.
+
+              SORU --> id e ye nasıl ulşmalıyız. Bunun cevabı doc.de saklıdır.
+              Doc. a baktığımız zaman görüyoruz ki id i ayrıca creat etmemiz gerekmektedir. Ki bizler bunu "b.1" stebinde creat etmiştik.
+              Aynısı kullanabiliriz.
+
+
+            e) Oluşturduğumuz board u siliniz
+
+            URL = "https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken"   (DELETE)
+
+             *** İlgili doc incelendiğinde anlaşılmıştır ki bizlerden path param olarak
+             "id" --> String formatın da istenmiştir.
+              Diğer fieldlar optional olarak belirtilmiştir.
+
+              SORU --> id e ye nasıl ulşmalıyız. Bunun cevabı doc.de saklıdır.
+              Doc. a baktığımız zaman görüyoruz ki id i ayrıca creat etmemiz gerekmektedir. Ki bizler bunu "a" stebinde creat etmiştik.
+              Aynısı kullanabiliriz.

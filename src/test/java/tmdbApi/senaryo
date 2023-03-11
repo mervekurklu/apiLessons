@@ -1,0 +1,60 @@
+Bu çalışmamız da TMDB API sini kullanarak çeşitli işlemler yapmayı hedefleyeceğiz.
+Yapılacak İşlemler:
+    a) Her hangi bir film için POST Methodu vasıtasıyla oylama işlemi yapınız.
+        URL = https://api.themoviedb.org/3/movie/{movie_id}/rating
+        a.1) Request Body:
+               {
+                 "value": 8.5
+               }
+        a.2) Bu işlem için auth. yani kimlik doğrulama işlemine ihtiyacımız vardır. Bu API için
+        api_key query param olarak gönderilecektir.
+        a.3) Bu işlemi yapabilmek için query parametre olarak session_id göndermemiz gerekmektedir.
+          (Doc. bu şekilde bir bilgi vardır.) Peki session_id yi nasıl create edebilr ve ya ulaşabiliriz. Bu noktada
+          tekrardan doc. bakmamız gerekmektedir.
+        Doc. a göre;
+          a.3.1) İlk step olarak token create etmeliyiz.
+           URL (GET) = https://api.themoviedb.org/3/authentication/token/new
+           Ex. Response Body:
+           {
+             "success": true,
+             "expires_at": "2016-08-26 17:04:39 UTC",
+             "request_token": "ff5c7eeb5a8870efe3cd7fc5c282cffd26800ecd"
+           }
+          a.3.2) Create edilen token ı approve etmeliyiz.
+            -Ya bir şekilde URL e gidip approve edeceğiz.
+            -Ya da (GET) https://www.themoviedb.org/authenticate/<<token>>/allow ile req göndermemiz gerekmektedir.
+             (CURL ile ulaşılmıştır....)
+          a.3.3) Şimdi yeni bir session ID creat edebiliriz.
+            Req. Body:
+            {
+              "request_token": "6bc047b88f669d1fb86574f06381005d93d3517a"
+            }
+            URL (POST) = https://api.themoviedb.org/3/authentication/session/new
+            Ex. Response Body:
+            {
+              "success": true,
+              "session_id": "79191836ddaa0da3df76a5ffef6f07ad6ab0c641"
+            }
+            Başarılı Bir şekilde session_id oluşturulduysa tekrardan "a" step ine dönüp
+            ilgili filmimizi oylayabiliriz.
+            Ex. Response Body (a step i yani başarılı oylama sonucunda aşağıdaki response body oluşmalı...):
+            {
+              "status_code": 1,
+              "status_message": "Success."
+            }
+    b) Her hangi bir film için DELETE methodu kullanarak silme işlemi yapınız
+         URL = https://api.themoviedb.org/3/movie/{movie_id}/rating
+          b.1) Bu işlem için auth. yani kimlik doğrulama işlemine ihtiyacımız vardır. Bu API için
+               api_key query param olarak gönderilecektir.
+          b.2) Bu işlemi yapabilmek için query parametre olarak session_id göndermemiz gerekmektedir.
+               Doc. bu şekilde bir bilgi vardır.) Peki session_id yi nasıl create edebilr ve ya ulaşabiliriz. Bu noktada
+               tekrardan doc. bakmamız gerekmektedir.
+               "a" örneğinde session_id creat edildiği için aynı session_id yi kullanabiliriz.
+    Ex. Response Body:
+    {
+      "status_code": 13,
+      "status_message": "The item/record was deleted successfully."
+    }
+NOTE:
+ 1) Bu işlemleri yaparken Auth olarak hep api_key query param olarak kullanılmalıdır.
+ 2) Bu seneryayo Cucumber Fw si ile yapılmalıdır.
